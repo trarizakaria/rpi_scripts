@@ -6,7 +6,7 @@
 
 # INSTRUCTIONS:
 # télécharger et executer ce script dans le terminal en utilisant la commande suivante:
-#  curl https://github.com/trarizakaria/rpi_scripts/blob/07c3459c73a9ca457e50d72fb2c0068c08119ead/setup-shutdown.sh | bash
+#  curl https://github.com/trarizakaria/rpi_scripts/blob/master/setup-shutdown.sh | bash
 ##################################################################################################################################
 
 set -u # en cas d'échec
