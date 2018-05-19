@@ -30,7 +30,7 @@ sudo apt-get install --yes python-rpi.gpio python3-rpi.gpio </dev/null
 mkdir /home/pi/scripts &> /dev/null
 echo; echo
 echo -e "\033[31mTéléchargement du fan scripts\e[0m"
-curl -# "https://raw.githubusercontent.com/trarizakaria/rpi_scripts/master/run-fan.py" > /home/pi/scripts/shutdown.py 
+curl -# "https://raw.githubusercontent.com/trarizakaria/rpi_scripts/master/run-fan.py" > /home/pi/scripts/run-fan.py 
 curl -# "https://raw.githubusercontent.com/trarizakaria/rpi_scripts/master/run-fan.rc" > /tmp/pi_fan
 sudo mv /tmp/pi_fan  /etc/init.d/pi_fan; chmod +x /etc/init.d/pi_fan
 #vérification pour voir si curl a réussi ou non, et options de réessaye.
