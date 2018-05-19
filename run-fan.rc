@@ -1,11 +1,11 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# Provides: pi_shutdown
+# Provides: pi_fan
 # Required-Start: $remote_fs $syslog
 # Required-Stop: $remote_fs $syslog
 # Default-Start: S
 # Default-Stop: 
-# Short-Description: Shutdown on GPIO trigger
+# Short-Description: control fan from GPIO t
 # Description: Python script listens for GPIO and runs shutdown command
 ### END INIT INFO
 
