@@ -7,24 +7,24 @@ import sys
 import RPi.GPIO as GPIO
 import datetime
 #########################
-sleepTime = 30  # Time to sleep between checking the temperature
-                # want to write unbuffered to file
+sleepTime = 30  # Temps entre deux relevés de température
+                # écriture d'un journal d'évenements
 fileLog = open('/home/pi/run-fan.log', 'w+', 0)
 
 #########################
-# Log messages should be time stamped
+# Horodatage des messages de journal
 def timeStamp():
     t = time.time()
     s = datetime.datetime.fromtimestamp(t).strftime('%Y/%m/%d %H:%M:%S - ')
     return s
 
-# Write messages in a standard format
+# Ecriture de message au format standard
 def printMsg(s):
     fileLog.write(timeStamp() + s + "\n")
 
 #########################
 class Pin(object):
-    pin = 25        # GPIO or BCM pin number to turn fan on and off
+    pin = 25        # numéro du GPIO ou BCM pin pour piloter le ventilateur on/off
 
     def __init__(self):
         try:
@@ -36,21 +36,21 @@ class Pin(object):
             printMsg("If method setup doesn't work, need to run script as sudo")
             exit
 
-    # resets all GPIO ports used by this program
+    # resets de tout les GPIO ports utilisés par ce programe
     def exitPin(self):
         GPIO.cleanup()
 
     def set(self, state):
         GPIO.output(self.pin, state)
 
-# Fan class
+# Ventilateur 
 class Fan(object):
     fanOff = True
 
     def __init__(self):
         self.fanOff = True
 
-    # Turn the fan on or off
+    # Mettre le ventilateur sur on ou off
     def setFan(self, temp, on, myPin):
         if on:
             printMsg("Turning fan on " + str(temp))
@@ -59,39 +59,39 @@ class Fan(object):
         myPin.set(on)
         self.fanOff = not on
 
-# Temperature class
+# Temperature
 class Temperature(object):
     cpuTemperature = 0.0
     startTemperature = 0.0
     stopTemperature = 0.0
 
     def __init__(self):
-        # Start temperature in Celsius
-        #   Maximum operating temperature of Raspberry Pi 3 is 85C
-        #   CPU performance is throttled at 82C
-        #   running a CPU at lower temperatures will prolong its life
+        # Relevé de temperature en Celsius
+        #   Température opérationelle maximum du Raspberry Pi 3 est 85°C
+        #   les performances de CPU sont ralenties à 82°C
+        #   faire fonctionner le CPU à des basses températures prolonge sa durée de vie
         self.startTemperature = 48.0
 
-        # Wait until the temperature is M degrees under the Max before shutting off
+        # Attendre que la température est inférieure de M degrées en dessous du Max avant d'éteindre le ventilateur
         self.stopTemperature = self.startTemperature - 2.0
 
         printMsg("Start fan at: " + str(self.startTemperature))
         printMsg("Stop fan at: " + str(self.stopTemperature))
 
     def getTemperature(self):
-        # need to specify path for vcgencmd
+        # il faut spécifier le path pour vcgencmd
         res = os.popen('/opt/vc/bin/vcgencmd measure_temp').readline()
         self.cpuTemperature = float((res.replace("temp=","").replace("'C\n","")))
 
-    # Using the CPU's temperature, turn the fan on or off
+    # Mettre le ventilateur sur on ou off en fonction de la température CPU
     def checkTemperature(self, myFan, myPin):
         self.getTemperature()
         if self.cpuTemperature > self.startTemperature:
-            # need to turn fan on, but only if the fan is off
+            # Mettre le ventilateur sur on, mais seulement s'il est en off
             if myFan.fanOff:
                 myFan.setFan(self.cpuTemperature, True, myPin)
         elif self.cpuTemperature <= self.stopTemperature:
-            # need to turn fan off, but only if the fan is on
+            # Mettre le ventilateur sur off, mais seulement s'il est en on
             if not myFan.fanOff:
                 myFan.setFan(self.cpuTemperature, False, myPin)
 
@@ -104,11 +104,11 @@ try:
     while True:
         myTemp.checkTemperature(myFan, myPin)
 
-        # Read the temperature every N sec (sleepTime)
-        # Turning a device on & off can wear it out
+        # Lecture de température chaque N sec (sleepTime)
+        # Allumer et éteindre un appareil peut l'épuiser (choisir de bonnes valeur pour N et M)
         time.sleep(sleepTime)
 
-except KeyboardInterrupt: # trap a CTRL+C keyboard interrupt
+except KeyboardInterrupt: # intercepter une interruption de clavier CTRL + C
     printMsg("keyboard exception occurred")
     myPin.exitPin()
     fileLog.close()
