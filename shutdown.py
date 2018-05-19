@@ -5,9 +5,8 @@ import subprocess
 
 GPIO.setmode(GPIO.BOARD)
 
-# we will use the pin numbering to match the pins on the Pi, instead of the
-# GPIO pin outs (makes it easier to keep track of things)
-# use the same pin that is used for the reset button (one button to rule them all!)
+# la numérotation utilisé dans ce script correspont à la numérotation physique
+# des broches du Raspberry PI, le pin 5 ici est l'équivalent du GPIO 3
 GPIO.setup(5, GPIO.IN)
 
 oldButtonState1 = True
