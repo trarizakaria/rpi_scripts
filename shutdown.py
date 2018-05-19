@@ -12,12 +12,12 @@ GPIO.setup(5, GPIO.IN)
 oldButtonState1 = True
 
 while True:
-    #grab the current button state
+    #conaitre l'état actuel du bouton
     buttonState1 = GPIO.input(5)
 
-    # check to see if button has been pushed
+    # verifier si le bouton a été pressé
     if buttonState1 != oldButtonState1 and buttonState1 == False:
-        # shutdown
+        # Arrêt
         subprocess.call("shutdown -h now", shell=True,
           stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         oldButtonState1 = buttonState1
