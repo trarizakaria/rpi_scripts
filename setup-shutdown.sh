@@ -29,7 +29,7 @@ sudo apt-get install --yes python-rpi.gpio python3-rpi.gpio </dev/null
 #téléchargement des scripts etc
 mkdir /home/pi/scripts &> /dev/null
 echo; echo
-echo -e "\033[31mDownloading shutdown scripts\e[0m"
+echo -e "\033[31mTéléchargement du shutdown scripts\e[0m"
 curl -# "https://raw.githubusercontent.com/trarizakaria/rpi_scripts/master/shutdown.py" > /home/pi/scripts/shutdown.py 
 curl -# "https://raw.githubusercontent.com/trarizakaria/rpi_scripts/master/shutdown.rc" > /tmp/pi_shutdown
 sudo mv /tmp/pi_shutdown  /etc/init.d/pi_shutdown; chmod +x /etc/init.d/pi_shutdown
