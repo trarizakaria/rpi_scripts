@@ -1,6 +1,12 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# Description: script Python qui surveille le GPIO pour executer une commande d'arrêt 
+# Provides: pi_shutdown
+# Required-Start: $remote_fs $syslog
+# Required-Stop: $remote_fs $syslog
+# Default-Start: S
+# Default-Stop: 
+# Short-Description: Shutdown on GPIO trigger
+# Description: Python script listens for GPIO and runs shutdown command
 ### END INIT INFO
 
 sudo python /home/pi/scripts/run-fan.py &
