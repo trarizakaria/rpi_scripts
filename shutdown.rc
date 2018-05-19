@@ -5,8 +5,8 @@
 # Required-Stop: $remote_fs $syslog
 # Default-Start: S
 # Default-Stop: 
-# Short-Description: Shutdown on GPIO trigger
-# Description: Python script listens for GPIO and runs shutdown command
+# Short-Description: Arrêt de Raspberry PI par bouton GPIO 
+# Description: Script python pour suveiller l'état d'un pin GPIO et execution de l'arrêt de Raspberry PI
 ### END INIT INFO
 
 sudo python /home/pi/scripts/shutdown.py &
